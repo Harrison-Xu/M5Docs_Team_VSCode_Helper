@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# VS Code build
+out/
+dist/
+*.vsix
+
+# Logs
+*.log
+*.tsbuildinfo
+
+# OS
+.DS_Store
+Thumbs.db
