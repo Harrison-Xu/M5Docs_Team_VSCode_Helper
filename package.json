@@ -9,15 +9,149 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:markdown",
+    "onCommand:m5docs.openSibling.zh_CN",
+    "onCommand:m5docs.openSibling.en",
+    "onCommand:m5docs.openSibling.ja",
+    "onCommand:m5docs.openOnline",
+    "onCommand:m5docs.openPreview",
+    "onCommand:m5docs.openFromUrl"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "m5docs-team-helper.helloWorld",
-        "title": "Hello World"
+        "command": "m5docs.openSibling.zh_CN",
+        "title": "Docs: 打开中文版本 (zh_CN)"
+      },
+      {
+        "command": "m5docs.openSibling.en",
+        "title": "Docs: 打开英文版本 (en)"
+      },
+      {
+        "command": "m5docs.openSibling.ja",
+        "title": "Docs: 打开日文版本 (ja)"
+      },
+      {
+        "command": "m5docs.openOnline",
+        "title": "Docs: 打开线上页面 (Open Online URL)"
+      },
+      {
+        "command": "m5docs.openPreview",
+        "title": "Docs: 打开本地预览 (Open Local Preview)"
+      },
+      {
+        "command": "m5docs.openFromUrl",
+        "title": "Docs: 从 URL 打开文档 (Open File from URL)"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title/context": [
+        {
+          "command": "m5docs.openSibling.zh_CN",
+          "group": "navigation@10",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openSibling.en",
+          "group": "navigation@11",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openSibling.ja",
+          "group": "navigation@12",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openOnline",
+          "group": "navigation@20",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openPreview",
+          "group": "navigation@21",
+          "when": "resourceExtname == .md"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "m5docs.openSibling.zh_CN",
+          "group": "navigation@10",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openSibling.en",
+          "group": "navigation@11",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openSibling.ja",
+          "group": "navigation@12",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openOnline",
+          "group": "navigation@20",
+          "when": "resourceExtname == .md"
+        },
+        {
+          "command": "m5docs.openPreview",
+          "group": "navigation@21",
+          "when": "resourceExtname == .md"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "m5docs.openFromUrl",
+          "when": "true"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "M5 Docs Tools",
+      "properties": {
+        "m5docs.languages": {
+          "type": "array",
+          "default": [
+            "zh_CN",
+            "en",
+            "ja"
+          ],
+          "description": "文档支持的语言列表（用于 sibling 切换与 URL 解析）。(Supported languages)"
+        },
+        "m5docs.docsRootName": {
+          "type": "string",
+          "default": "nuxt-m5-docs",
+          "description": "（多根工作区下使用）优先作为文档根目录的工作区文件夹名。"
+        },
+        "m5docs.staticDirName": {
+          "type": "string",
+          "default": "static",
+          "description": "静态文档所在目录名（默认 static）。"
+        },
+        "m5docs.onlineBaseUrl": {
+          "type": "string",
+          "default": "https://docs.m5stack.com",
+          "description": "线上文档基址（base URL）。"
+        },
+        "m5docs.previewBaseUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:3000",
+          "description": "本地预览基址（如 http://192.168.x.x:3000）。"
+        },
+        "m5docs.createTemplate": {
+          "type": "string",
+          "default": "# ${BASENAME}\n\n> TODO: 内容待补充。",
+          "description": "自动创建新文档时写入的初始内容模板。可用占位符 ${BASENAME}。"
+        },
+        "m5docs.treatReadmeAsIndex": {
+          "type": "boolean",
+          "default": true,
+          "description": "生成 URL 时将 README.md 视为目录首页（去掉路径末尾的 /README）。"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
