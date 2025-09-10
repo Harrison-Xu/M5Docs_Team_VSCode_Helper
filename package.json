@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/Harrison-Xu/M5Docs_Team_VSCode_Helper.git"
   },
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.103.0"
   },
@@ -53,81 +53,81 @@
       "editor/title/context": [
         {
           "command": "-",
-          "group": "M5Docs@00"
+          "group": "navigation@-19"
         },
         {
           "command": "m5docs.openAllLanguages",
-          "group": "M5Docs@01",
+          "group": "navigation@-18",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.zh_CN",
-          "group": "M5Docs@02",
+          "group": "navigation@-17",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]zh_CN[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.en",
-          "group": "M5Docs@03",
+          "group": "navigation@-16",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]en[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.ja",
-          "group": "M5Docs@04",
+          "group": "navigation@-15",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]ja[\\\\/]/)"
         },
         {
           "command": "m5docs.openOnline",
-          "group": "M5Docs@05",
+          "group": "navigation@-14",
           "when": "resourceExtname == .md"
         },
         {
           "command": "m5docs.openPreview",
-          "group": "M5Docs@06",
+          "group": "navigation@-13",
           "when": "resourceExtname == .md"
         },
         {
           "command": "-",
-          "group": "M5Docs@07"
+          "group": "navigation@-12"
         }
       ],
       "explorer/context": [
         {
           "command": "-",
-          "group": "M5Docs@00"
+          "group": "navigation@-19"
         },
         {
           "command": "m5docs.openAllLanguages",
-          "group": "M5Docs@01",
+          "group": "navigation@-18",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.zh_CN",
-          "group": "M5Docs@02",
+          "group": "navigation@-17",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]zh_CN[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.en",
-          "group": "M5Docs@03",
+          "group": "navigation@-16",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]en[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.ja",
-          "group": "M5Docs@04",
+          "group": "navigation@-15",
           "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]ja[\\\\/]/)"
         },
         {
           "command": "m5docs.openOnline",
-          "group": "M5Docs@05",
+          "group": "navigation@-14",
           "when": "resourceExtname == .md"
         },
         {
           "command": "m5docs.openPreview",
-          "group": "M5Docs@06",
+          "group": "navigation@-13",
           "when": "resourceExtname == .md"
         },
         {
           "command": "-",
-          "group": "M5Docs@07"
+          "group": "navigation@-12"
         }
       ],
       "commandPalette": [
