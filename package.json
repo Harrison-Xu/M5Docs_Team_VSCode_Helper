@@ -2,6 +2,11 @@
   "name": "m5docs-team-helper",
   "displayName": "M5Docs Team Helper",
   "description": "A VS Code extension for M5Stack Docs team to improve editing efficiency.",
+  "publisher": "Harrison-Xu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Harrison-Xu/M5Docs_Team_VSCode_Helper.git"
+  },
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.103.0"
