@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as vscode from 'vscode';
 import * as path from 'path';
 
@@ -13,6 +14,35 @@ interface DocInfo {
 // Normalize to posix-like path (useful on Windows)
 function toPosix(p: string): string {
 	return p.replace(/\\/g, '/');
+}
+
+// 获取优先 192.168.* 的局域网 IPv4；若无则退而求其次（10.* / 172.16-31.*），再不行返回 null
+function getLanIPv4Prefer192(): string | null {
+	const ifs = os.networkInterfaces();
+	const fallbacks: string[] = [];
+	for (const name of Object.keys(ifs)) {
+		for (const addr of (ifs[name] || [])) {
+			if (addr && addr.family === 'IPv4' && !addr.internal) {
+				const ip = addr.address;
+				if (ip.startsWith('192.168.')) return ip; // 优先 192.168.*
+				fallbacks.push(ip); // 记录其它可用 IPv4，如 10.* / 172.16-31.*
+			}
+		}
+	}
+	return fallbacks[0] ?? null;
+}
+
+// 若 base 的主机名是 127.0.0.1/localhost，则替换为局域网 IP
+function patchBaseHost(base: string, lan: string | null): string {
+	try {
+		const u = new URL(base);
+		if (lan && (u.hostname === '127.0.0.1' || u.hostname === 'localhost')) {
+			u.hostname = lan; // 协议与端口保持不变
+		}
+		return u.toString().replace(/\/+$/, ''); // 去尾斜杠
+	} catch {
+		return base;
+	}
 }
 
 // Find "<workspace>/static/<lang>/<...>.md" segments from a file Uri
@@ -185,7 +215,7 @@ export function activate(context: vscode.ExtensionContext) {
 		await vscode.env.openExternal(url);
 	}));
 
-	// Open Local Preview URL
+	// Open Local Preview URL（改用局域网 IP）
 	context.subscriptions.push(vscode.commands.registerCommand('m5docs.openPreview', async (uri?: vscode.Uri) => {
 		const source = uri ?? vscode.window.activeTextEditor?.document.uri;
 		if (!source) return;
@@ -194,7 +224,9 @@ export function activate(context: vscode.ExtensionContext) {
 			vscode.window.showErrorMessage(`该文件不在 ${staticDir}/{${languages.join(',')}}/ 结构内。`);
 			return;
 		}
-		const url = buildUrl(previewBase, info.lang, info.relPathNoExt);
+		const lan = getLanIPv4Prefer192();
+		const effectivePreviewBase = patchBaseHost(previewBase, lan);
+		const url = buildUrl(effectivePreviewBase, info.lang, info.relPathNoExt);
 		await vscode.env.openExternal(url);
 	}));
 
@@ -224,6 +256,46 @@ export function activate(context: vscode.ExtensionContext) {
 
 		await openFileWithCreatePrompt(target, createTemplate);
 	}));
+
+	// 同时打开三语（实际为：当前语言不动，依次打开另外两种语言）
+	// 不分屏（ViewColumn.Active）+ 不抢焦点（preserveFocus: true）
+	context.subscriptions.push(
+		vscode.commands.registerCommand('m5docs.openAllLanguages', async (uri?: vscode.Uri) => {
+			const source = uri ?? vscode.window.activeTextEditor?.document.uri;
+			if (!source) {
+				vscode.window.showErrorMessage('未获取到源文件。请从 .md 文件右键或激活编辑器后执行命令。');
+				return;
+			}
+			const info = parseDocInfo(source, languages, staticDir, treatReadmeAsIndex);
+			if (!info) {
+				vscode.window.showErrorMessage(`该文件不在 ${staticDir}/{${languages.join(',')}}/ 结构内。`);
+				return;
+			}
+
+			const others = languages.filter(l => l !== info.lang);
+			try {
+				for (const lang of others) {
+					const target = await buildTargetFileUri(source, lang, info);
+					if (!(await exists(target))) {
+						const pick = await vscode.window.showInformationMessage(
+							`文件不存在：${target.fsPath}\n是否创建对应语言文件？`,
+							{ modal: true }, '创建', '跳过'
+						);
+						if (pick !== '创建') continue;
+						await ensureCreateFile(target, createTemplate);
+					}
+					const doc = await vscode.workspace.openTextDocument(target);
+					await vscode.window.showTextDocument(doc, {
+						preview: false,
+						viewColumn: vscode.ViewColumn.Active, // 当前列，不分屏
+						preserveFocus: true                   // 不抢焦点
+					});
+				}
+			} catch (e: any) {
+				vscode.window.showErrorMessage(e?.message ?? String(e));
+			}
+		})
+	);
 }
 
 export function deactivate() { }

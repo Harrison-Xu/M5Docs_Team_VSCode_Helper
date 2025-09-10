@@ -7,106 +7,131 @@
     "type": "git",
     "url": "https://github.com/Harrison-Xu/M5Docs_Team_VSCode_Helper.git"
   },
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.103.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onLanguage:markdown",
-    "onCommand:m5docs.openSibling.zh_CN",
-    "onCommand:m5docs.openSibling.en",
-    "onCommand:m5docs.openSibling.ja",
-    "onCommand:m5docs.openOnline",
-    "onCommand:m5docs.openPreview",
-    "onCommand:m5docs.openFromUrl"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
+        "command": "m5docs.openAllLanguages",
+        "title": "M5Docs: 同时打开三语文件 (All languages)"
+      },
+      {
         "command": "m5docs.openSibling.zh_CN",
-        "title": "Docs: 打开中文版本 (zh_CN)"
+        "title": "M5Docs: 打开中文文件 (zh_CN)"
       },
       {
         "command": "m5docs.openSibling.en",
-        "title": "Docs: 打开英文版本 (en)"
+        "title": "M5Docs: 打开英文文件 (en)"
       },
       {
         "command": "m5docs.openSibling.ja",
-        "title": "Docs: 打开日文版本 (ja)"
+        "title": "M5Docs: 打开日文文件 (ja)"
       },
       {
         "command": "m5docs.openOnline",
-        "title": "Docs: 打开线上页面 (Open Online URL)"
+        "title": "M5Docs: 打开线上页面 (Online page)"
       },
       {
         "command": "m5docs.openPreview",
-        "title": "Docs: 打开本地预览 (Open Local Preview)"
+        "title": "M5Docs: 打开本地预览 (Local preview)"
       },
       {
         "command": "m5docs.openFromUrl",
-        "title": "Docs: 从 URL 打开文档 (Open File from URL)"
+        "title": "M5Docs: 从 URL 打开文件 (Open file from URL)"
       }
     ],
     "menus": {
       "editor/title/context": [
         {
+          "command": "-",
+          "group": "M5Docs@00"
+        },
+        {
+          "command": "m5docs.openAllLanguages",
+          "group": "M5Docs@01",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/)"
+        },
+        {
           "command": "m5docs.openSibling.zh_CN",
-          "group": "navigation@10",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@02",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]zh_CN[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.en",
-          "group": "navigation@11",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@03",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]en[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.ja",
-          "group": "navigation@12",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@04",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]ja[\\\\/]/)"
         },
         {
           "command": "m5docs.openOnline",
-          "group": "navigation@20",
+          "group": "M5Docs@05",
           "when": "resourceExtname == .md"
         },
         {
           "command": "m5docs.openPreview",
-          "group": "navigation@21",
+          "group": "M5Docs@06",
           "when": "resourceExtname == .md"
+        },
+        {
+          "command": "-",
+          "group": "M5Docs@07"
         }
       ],
       "explorer/context": [
         {
+          "command": "-",
+          "group": "M5Docs@00"
+        },
+        {
+          "command": "m5docs.openAllLanguages",
+          "group": "M5Docs@01",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/)"
+        },
+        {
           "command": "m5docs.openSibling.zh_CN",
-          "group": "navigation@10",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@02",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]zh_CN[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.en",
-          "group": "navigation@11",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@03",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]en[\\\\/]/)"
         },
         {
           "command": "m5docs.openSibling.ja",
-          "group": "navigation@12",
-          "when": "resourceExtname == .md"
+          "group": "M5Docs@04",
+          "when": "(resourceExtname == .md) && (resourcePath =~ /[\\\\/]static[\\\\/](zh_CN|en|ja)[\\\\/]/) && !(resourcePath =~ /[\\\\/]static[\\\\/]ja[\\\\/]/)"
         },
         {
           "command": "m5docs.openOnline",
-          "group": "navigation@20",
+          "group": "M5Docs@05",
           "when": "resourceExtname == .md"
         },
         {
           "command": "m5docs.openPreview",
-          "group": "navigation@21",
+          "group": "M5Docs@06",
           "when": "resourceExtname == .md"
+        },
+        {
+          "command": "-",
+          "group": "M5Docs@07"
         }
       ],
       "commandPalette": [
+        {
+          "command": "m5docs.openAllLanguages",
+          "when": "true"
+        },
         {
           "command": "m5docs.openFromUrl",
           "when": "true"
@@ -114,7 +139,7 @@
       ]
     },
     "configuration": {
-      "title": "M5 Docs Tools",
+      "title": "M5Docs Team Helper",
       "properties": {
         "m5docs.languages": {
           "type": "array",
@@ -123,7 +148,7 @@
             "en",
             "ja"
           ],
-          "description": "文档支持的语言列表（用于 sibling 切换与 URL 解析）。(Supported languages)"
+          "description": "文档支持的语言列表（用于 sibling 切换、URL 解析）。"
         },
         "m5docs.docsRootName": {
           "type": "string",
